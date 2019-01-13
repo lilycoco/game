@@ -1,0 +1,42 @@
+#boardArea{
+    width: 319px;
+    height:auto;
+    border-collapse: collapse;
+    box-sizing: border-box;
+    table-layout: fixed;
+    margin:auto;
+    padding-top: 100px;
+  }
+  .noColor, .color0, .color1, .color2, .color3, .color4, .color5{
+    box-sizing: border-box;
+    background-color: rgb(15, 15, 27);
+    border:1px solid rgba(0, 0, 0, 0.253);
+    width:30px;
+    height:30px; 
+    text-align: center;
+    float: left;
+  }
+  .color0, .color1, .color2, .color3, .color4, .color5{
+    border:5px outset rgba(255, 255, 255, 0.568);
+  }
+  #tetrisArea{
+    position: relative;
+    width: 319px;
+    padding-top:0px;
+    height:600px;
+  }
+  .tetrisWrapper{
+    position:absolute;
+    top:-30;
+    left:120;
+  }
+  .block{
+    border-collapse: collapse;
+  }
+  .flex{
+    display: flex;
+  }
+  .blank{
+    width:30px;
+    height:30px;
+  }
