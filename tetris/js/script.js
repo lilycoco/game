@@ -150,30 +150,32 @@
     // console.log(newBoard);
 
     // newBoard にtetrisを表示
-    for(row=0; row<tetris[block].length; row++){
-      for(col=0; col<tetris[block][row].length; col++){
-        if(tetris[block][row][col] === 1){
-          newBoard[row  + len][col  + wid + 4] = color + 1;
+    for(let row=0; row<tetris[block].length; row++ ){
+      for(let col=0; col<tetris[block][row].length; col++ ){
+        if( tetris[block][row][col] === 1 ){
+          newBoard[row + len][col + wid + 4] = color + 1;
         }
       }
     }
+
     // 画面上に表示
     let boards="";
-    for(let top=0; top<newBoard.length; top++){
-      for(let left=0; left<newBoard[top].length; left++){
-        if( newBoard[top][left] === 0 ){
+    for(let top = 0; top < newBoard.length; top++){
+      for(let left = 0; left < newBoard[top].length; left++){
+        const newB = newBoard[top][left];
+        if( newB === 0 ){
           boards += "<div class='noColor'>"
-        }else if( newBoard[top][left] === 1 ){
+        }else if( newB === 1 ){
           boards += "<div class='color0'>"
-        }else if( newBoard[top][left] === 2 ){
+        }else if( newB === 2 ){
           boards += "<div class='color1'>"
-        }else if( newBoard[top][left] === 3 ){
+        }else if( newB === 3 ){
           boards += "<div class='color2'>"
-        }else if( newBoard[top][left] === 4 ){
+        }else if( newB === 4 ){
           boards += "<div class='color3'>"
-        }else if( newBoard[top][left] === 5 ){
+        }else if( newB === 5 ){
           boards += "<div class='color4'>"
-        }else if( newBoard[top][left] === 6 ){
+        }else if( newB === 6 ){
           boards += "<div class='color5'>"
         }
         // boards += newBoard[top][left];
@@ -201,11 +203,12 @@
       for(let col=0; col<tetris[block][row].length; col++){
         
         //ボードに転写
-        if((tetris[block].length +len === 20)|| //一番下に着いた時
-          ((tetris[block][row][col]===1)&&(board[ row + len +1][col  + wid + 4] !==0 ))){ //一つ下にtetrisがある時
-          for(let row=0; row<tetris[block].length; row++){
-            for(let col=0; col<tetris[block][row].length; col++){
-              if(tetris[block][row][col]===1){
+        if((tetris[block].length +len === 20) || //一番下に着いた時
+          ((tetris[block][row][col]===1) &&
+          (board[ row + len + 1 ][ col + wid + 4 ] !==0 ))){ //一つ下にtetrisがある時
+          for(let row = 0; row < tetris[block].length; row++){
+            for(let col = 0; col < tetris[block][row].length; col++){
+              if(tetris[block][row][col] === 1){
                 audio3.play();
                 board[ row + len][col  + wid + 4] = color + 1 ;
                 if(row + len <1){
@@ -246,13 +249,13 @@
   $("html").keydown(function(e){
     //回転
     if(e.which == 13){ 
-      if((block >= 0 && block < 3)||
-        (block >= 4 && block < 7)||
-        (block >= 8 && block < 11)||
-        (block >= 12 && block < 15)||
-        (block >= 16 && block < 19)||
-        (block >= 20 && block < 23)||
-        (block >= 24 && block < 27)){
+      if((block >= 0 && block < 3) ||
+        (block >= 4 && block < 7) ||
+        (block >= 8 && block < 11) ||
+        (block >= 12 && block < 15) ||
+        (block >= 16 && block < 19) ||
+        (block >= 20 && block < 23) ||
+        (block >= 24 && block < 27)) {
           block += 1;
         }else if(block===3 || block===7 || block===11 ||block===15 ||block===19 ||block===23 ||block===27){
           block -= 3;
@@ -263,10 +266,11 @@
       }
     
     //下へ移動
-    if(e.which == 40){ 
+    if(e.which === 40){ 
       for(let row=0; row<tetris[block].length; row++){
-        for(let col=0; col<tetris[block][row].length; col++){ 
-          if((tetris[block][row][col]===1)&& //テトリスの形
+        for(let col=0; col<tetris[block][row].length; col++){
+           
+          if((tetris[block][row][col]===1) && //テトリスの形
             (board[ row + len +1][col  + wid + 4] !==0 )){ //一つ下にテトリスがある時
             return;
           }
@@ -282,8 +286,8 @@
     else if(e.which == 39){
       for(let row=0; row<tetris[block].length; row++){
         for(let col=0; col<tetris[block][row].length; col++){
-          if((tetris[block][row][col]===1)&& //テトリスの形
-            (board[row + len][col  + wid + 5] !==0 )){ //一つ右にテトリスがある時
+          if((tetris[block][row][col] === 1) && //テトリスの形
+            (board[row + len][col + wid + 5] !==0 )){ //一つ右にテトリスがある時
             return;
             }
           }
@@ -298,8 +302,8 @@
     else if(e.which == 37){ 
       for(let row=0; row<tetris[block].length; row++){
         for(let col=0; col<tetris[block][row].length; col++){
-          if((tetris[block][row][col]===1)&& //テトリスの形
-            (board[row + len][col  + wid + 3] !==0 )){ //一つ左にテトリスがある時
+          if((tetris[block][row][col]===1) && //テトリスの形
+            (board[row + len][col + wid + 3] !==0 )){ //一つ左にテトリスがある時
             return;
             }
           }
@@ -310,6 +314,8 @@
         drawBoard();
       }
     }
+
+
   });
 
   //--------------------
@@ -323,15 +329,15 @@
 
     for(let top=0; top<board.length; top++){
       for(let left=0; left<board[top].length; left++){
-        if(( board[top][0] !== 0 )&&
-          ( board[top][1] !== 0 )&&
-          ( board[top][2] !== 0 )&&
-          ( board[top][3] !== 0 )&&
-          ( board[top][4] !== 0 )&&
-          ( board[top][5] !== 0 )&&
-          ( board[top][6] !== 0 )&&
-          ( board[top][7] !== 0 )&&
-          ( board[top][8] !== 0 )&&
+        if(( board[top][0] !== 0 ) &&
+          ( board[top][1] !== 0 ) &&
+          ( board[top][2] !== 0 ) &&
+          ( board[top][3] !== 0 ) &&
+          ( board[top][4] !== 0 ) &&
+          ( board[top][5] !== 0 ) &&
+          ( board[top][6] !== 0 ) &&
+          ( board[top][7] !== 0 ) &&
+          ( board[top][8] !== 0 ) &&
           ( board[top][9] !== 0 )){
         // if(board[top].indexOf(0)===0){
         // } 
@@ -339,10 +345,10 @@
             // console.log(willDeleteRow);
       }
 
-      if(willDeleteRow.length>0){
-        for(top=board.length-1; top>=0; top--){
-          if((top-willDeleteRow.length>0))
-            if(willDeleteRow>=top){
+      if(willDeleteRow.length > 0){
+        for(let top = board.length-1; top >= 0; top--){
+          if((top-willDeleteRow.length > 0))
+            if(willDeleteRow >= top){
               board[top]=board[top-willDeleteRow.length];
               audio2.play();
             }
