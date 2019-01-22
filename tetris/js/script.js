@@ -147,8 +147,6 @@
   //--------------------
   function drawBoard(){
     let newBoard = $.extend(true,[],board); // board をディープコピー
-    // console.log(newBoard);
-
     // newBoard にtetrisを表示
     for(let row=0; row<tetris[block].length; row++ ){
       for(let col=0; col<tetris[block][row].length; col++ ){
@@ -157,7 +155,6 @@
         }
       }
     }
-
     // 画面上に表示
     let boards="";
     for(let top = 0; top < newBoard.length; top++){
@@ -201,7 +198,6 @@
   function flow(){
     for(let row=0; row<tetris[block].length; row++){
       for(let col=0; col<tetris[block][row].length; col++){
-        
         //ボードに転写
         if((tetris[block].length +len === 20) || //一番下に着いた時
           ((tetris[block][row][col]===1) &&
@@ -222,12 +218,10 @@
           len -= len;
 
           //形変更
-          if( block < 23 ){ block += 4; }
-          else{ block -= 23; }
-
+          if( block < 23 ){ block += 4; }else{ block -= 23; }
+          
           //色変更
-          if( color < 5 ){ color += 1; }
-          else{ color -= 5; }
+          if( color < 5 ){ color += 1; }else{ color -= 5; }
         }
       }
     }
@@ -265,57 +259,30 @@
         drawBoard();
       }
     
-    //下へ移動
-    if(e.which === 40){ 
       for(let row=0; row<tetris[block].length; row++){
         for(let col=0; col<tetris[block][row].length; col++){
-           
-          if((tetris[block][row][col]===1) && //テトリスの形
-            (board[ row + len +1][col  + wid + 4] !==0 )){ //一つ下にテトリスがある時
-            return;
-          }
-        }
-      }
-      if(tetris[block].length +len < 20){
-        len+=1;
-        $("#boardArea").empty();
-        drawBoard();
-      }
-    }
-    //右へ移動
-    else if(e.which == 39){
-      for(let row=0; row<tetris[block].length; row++){
-        for(let col=0; col<tetris[block][row].length; col++){
-          if((tetris[block][row][col] === 1) && //テトリスの形
-            (board[row + len][col + wid + 5] !==0 )){ //一つ右にテトリスがある時
-            return;
+          if(tetris[block][row][col]===1){//テトリスの形
+            if((e.which === 40)&&(board[ row + len +1][col + wid + 4] !==0 )||//下へ移動//一つ下にテトリスがある時
+              (e.which == 39)&&(board[row + len][col + wid + 5] !==0 )||// //右へ移動一つ右にテトリスがある時
+              (e.which == 37)&&(board[row + len][col + wid + 3] !==0 )){////左へ移動一つ左にテトリスがある時
+              return;
             }
           }
         }
-      if(tetris[block][0].length +wid < 6){
-        wid += 1;
-        $("#boardArea").empty();
-        drawBoard();
       }
-    }
-    //左へ移動
-    else if(e.which == 37){ 
-      for(let row=0; row<tetris[block].length; row++){
-        for(let col=0; col<tetris[block][row].length; col++){
-          if((tetris[block][row][col]===1) && //テトリスの形
-            (board[row + len][col + wid + 3] !==0 )){ //一つ左にテトリスがある時
-            return;
-            }
-          }
-        }
-      if(wid >-4){
-        wid -= 1;
-        $("#boardArea").empty();
-        drawBoard();
+      if((e.which === 40)&&(tetris[block].length +len < 20)){
+          len+=1;
+          $("#boardArea").empty();
+          drawBoard();
+      }else if((e.which == 39)&&(tetris[block][0].length +wid < 6)){
+          wid += 1;
+          $("#boardArea").empty();
+          drawBoard();
+      }else if((e.which == 37)&&(wid >-4)){
+          wid -= 1;
+          $("#boardArea").empty();
+          drawBoard();
       }
-    }
-
-
   });
 
   //--------------------
@@ -326,7 +293,6 @@
 
   function deleteRow(){
     willDeleteRow=[];
-
     for(let top=0; top<board.length; top++){
       for(let left=0; left<board[top].length; left++){
         if(( board[top][0] !== 0 ) &&
@@ -342,19 +308,17 @@
         // if(board[top].indexOf(0)===0){
         // } 
             willDeleteRow.push(top);
-            // console.log(willDeleteRow);
-      }
-
-      if(willDeleteRow.length > 0){
-        for(let top = board.length-1; top >= 0; top--){
-          if((top-willDeleteRow.length > 0))
+        }
+        if(willDeleteRow.length > 0){
+          for(let top = board.length-1; top >= 0; top--){
+            if((top-willDeleteRow.length > 0))
             if(willDeleteRow >= top){
               board[top]=board[top-willDeleteRow.length];
               audio2.play();
             }
-            // else{
-            //   board[top]=board[willDeleteRow];
-            // }      
+              // else{
+              //   board[top]=board[willDeleteRow];
+              // }      
           }
         }
       }
