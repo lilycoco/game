@@ -207,9 +207,9 @@
             for(let row = 0; row < tetris[block].length; row++){
               for(let col = 0; col < tetris[block][row].length; col++){
                 if(tetris[block][row][col] === 1){
-                audio3.play();
-                board[ row + len][col  + wid + 4] = color + 1 ;
-                if(row + len < 1){
+                  audio3.play();
+                  board[ row + len][col  + wid + 4] = color + 1 ;
+                  if(row + len < 1){
                   alert("GAME OVER");
                 }
               }
