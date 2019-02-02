@@ -14,7 +14,7 @@ function PlaySound2() {
 }
 
 /*---------------------------
-* ufoについて
+*           ufo
 *--------------------------*/
 let ufoImg = new Image(); // 画像の読み込み
 ufoImg.src ="images/ufo.png";
@@ -25,7 +25,6 @@ let ufo = {
     height: 32,
 };
 
-// マウス動いたらufoを動かす関数
 const ufoMove = function(e) {
     // ctx.clearRect(ufo.posX, ufo.posY, ufo.width, ufo.height);   //画像を消す
     ufo.posX = e.offsetX;   //新しいX座標を設定
@@ -33,13 +32,12 @@ const ufoMove = function(e) {
 }
 
 /*---------------------------
-* 敵について
+*            敵
 *--------------------------*/
-
-const aryImg = [];  // 画像の情報を格納
+const aryImg = [];
 const imgCnt = 20;  // 描画する画像の数
-const imgW = 32;    // 画像の基本サイズ横幅
-const imgH = 32;  // 画像の基本サイズ立幅
+const imgW = 32; 
+const imgH = 32;  
 const cvsw = can.width - imgW;   // canvasタグに指定したwidth
 const cvsh = can.height;   // canvasタグに指定したheight
 const enemySpeed = 1;
@@ -51,7 +49,6 @@ const srcs=[
 let img = new Image(); // 画像の読み込み
 img.src = srcs[Math.floor(Math.random() * 3)];
 
-// 画像のパラメーターを設定
 function setImages(){
     for(let t = 0; t < imgCnt; t++) {
         aryImg.push({
@@ -61,7 +58,6 @@ function setImages(){
     }
 }
 
-// 描画、パラメーターの更新
 function flowEnemy() {
     for(d = 0; d < imgCnt; d++) {
         if(!aryImg[d]) return;
@@ -72,9 +68,8 @@ function flowEnemy() {
 }
 
 /*---------------------------
-* ufoが発る射す光線について
+*      ufoが発射する光線
 *--------------------------*/
-
 const beams = []; 
 const beamData = {
     speed: 5,
@@ -85,7 +80,6 @@ const beamData = {
     color: "#f00"
 }
 
-// 新しい光線を発射する関数
 const shootBeam = function() {
     const newBeam = {...beamData};
     newBeam.posX = ufo.posX + (Math.ceil(ufo.width / 2 - newBeam.width / 2));
@@ -104,7 +98,7 @@ const moveBeam = function() {
 };
 
 /*---------------------------
-* 当たり判定
+*         当たり判定
 *--------------------------*/
 let countUpValue = 0;
 const comment = $("#comment");
@@ -120,7 +114,7 @@ function countUp() {
 
 const hitJudge = function() {
     for(let k = 0; k < beams.length; k++) {
-        if (beams[k].posY <= 0) beams.splice(k, 1);// スクリーンアウトしたら配列からデータを消去
+        if (beams[k].posY <= 0) beams.splice(k, 1);  // スクリーンアウトしたら配列からデータを消去
         for(let d = 0; d < aryImg.length; d++) {
             if(!beams[k]) return;
             const beamLeft = beams[k].posX;
@@ -144,7 +138,7 @@ const hitJudge = function() {
 };
 
 /*---------------------------
-* Time Gage
+*         Time Gage
 *--------------------------*/
 const time = $("#timegage")[0];
 const timectx = time.getContext("2d");
@@ -169,6 +163,9 @@ const leftTime = function() {
     timectx.fillRect(timegageData.posX, timegageData.posY,timegageData.width,timegageData.height);
 }
 
+/*---------------------------
+*         動作処理
+*--------------------------*/
 $(window).on("load", setImages);
 $(can).on("mousemove", ufoMove);
 $(can).on("mousedown", function() {
