@@ -69,11 +69,8 @@ function playSound1() {
   audio1.src = "sound/punch-swing1.mp3";
   audio1.play();
 }
-function playSound2(){
-  let audio2 = new Audio();
-  audio2.src = "sound/magic-worp1.mp3"; 
-  audio2.play();
-}
+let audio2 = new Audio();
+audio2.src = "sound/magic-worp1.mp3"; 
 function playSound3() {
   let audio3 = new Audio();
   audio3.src = "sound/matchstick-put-fire1.mp3";
@@ -218,7 +215,7 @@ function deleteRow(){
         for(t = board.length - 1; t >= 0; t--) {
           if(t - willDeleteRow.length > 0 && willDeleteRow >= t) {
             board[t] = board[t - willDeleteRow.length];
-            playSound2();
+            audio2.play();
           }
         }
       }
