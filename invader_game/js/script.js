@@ -35,7 +35,7 @@ const ufoMove = function(e) {
 *            敵
 *--------------------------*/
 const aryImg = [];
-const imgCnt = 20;  // 描画する画像の数
+const imgCnt = 21;  // 描画する画像の数
 const imgW = 32; 
 const imgH = 32;  
 const cvsw = can.width - imgW;   // canvasタグに指定したwidth
@@ -105,7 +105,7 @@ const comment = $("#comment");
 
 function countUp() {
     countUpValue++;
-    if(countUpValue < 20) $("#count").html(countUpValue);
+    if(countUpValue < imgCnt) $("#count").html(countUpValue);
     else {
         comment.html("CLEAR");
         clearInterval(timer);
