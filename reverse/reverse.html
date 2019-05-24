@@ -1,199 +1,192 @@
 <html>
-<head>
-</head>
-<body>
-  <div id="app">
-    <table id="table">
-    </table>
-  </div>
-  <div id="counter"></div>
-  <style>
-    #app{
-      background:#090;
-      width:480px;
-      height:480px;
-      margin:30px auto;
-    }
-
-    #table{
-      width: 100%;
-      height: 100%;
-      border-collapse: collapse;
-      box-sizing: border-box;
-      table-layout: fixed;
-  
-    }
-    #table td{
-      box-sizing: border-box;
-      border:2px solid #000;
-      /* /* width:100% /8; */
-      height:12.5% ; 
-      cursor: pointer;
-      text-align: center;
-    }
-    #table td:hover {
-    border: 3px solid #F55;
-    }
-
-    img{
-      width:50px;
-      height:50px;
-    }
-    #counter{
-      background-color: darkcyan;
-      padding: 19px;
-      font-size: 40px;
-      margin: auto;
-      height: 72px;
-      width: 300px;
-    }
-    #counter div{
-      float: left;
-      margin: 10px;
-    }
-
-  </style>
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-crossorigin="anonymous"></script>
-<script>
-
-let board = [
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,1,-1,0,0,0],
-  [0,0,0,-1,1,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0],
-];
-
-const white = "<img src='pic/circle_white.png'>"
-const black = "<img src='pic/circle_black.png'>"
-  
-function draw(){
-  peaces="";
-  for(let t=0; t<board.length; t++){
-    peaces += "<tr>\n"
-    for(let r=0; r<board[t].length; r++){
-      peaces += "<td>";
-      if(board[t][r] === 1){
-        peaces += white;
-      }else if(board[t][r] === -1 ){
-        peaces += black;
+  <head>
+  </head>
+  <body>
+    <div id="app">
+      <table id="table">
+      </table>
+    </div>
+    <div id="counter"></div>
+    <style>
+      #app{
+        background:#090;
+        width:480px;
+        height:480px;
+        margin:30px auto;
       }
-      // peaces += board[t][r];
-      peaces += "</td>\n";
-    }
-    peaces += "</tr>\n"
-  }
-  $("#table").append(peaces);
-}
+      #table{
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        box-sizing: border-box;
+        table-layout: fixed;
+      }
+      #table td{
+        box-sizing: border-box;
+        border:2px solid #000;
+        /* /* width:100% /8; */
+        height:12.5% ; 
+        cursor: pointer;
+        text-align: center;
+      }
+      #table td:hover {
+        border: 3px solid #F55;
+      }
+      img{
+        width:50px;
+        height:50px;
+      }
+      #counter{
+        background-color: darkcyan;
+        padding: 19px;
+        font-size: 40px;
+        margin: auto;
+        height: 72px;
+        width: 300px;
+      }
+      #counter div{
+        float: left;
+        margin: 10px;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    <script>
+      let board = [
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,1,-1,0,0,0],
+        [0,0,0,-1,1,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+      ];
 
-let directions =[
-  [-1,-1],
-  [0,-1],
-  [1,-1],
-  [1,0],
-  [1,1],
-  [0,1],
-  [-1,1],
-  [-1,0],
-];
-
-let color = 1;
-
-function turnPiece(x, y){
-  let confirmedPieces = [];
-  
-  // 隣接するコマを確認するループ
-    for(let i=0; i<directions.length; i++){
-      let a= directions[i][0];
-      let b= directions[i][1];
-
-      let u =y+a;//隣接するx座標
-      let k =x+b;//隣接するy座標
-  
-      let n = 1; //何回while文を回すかの数
-      let candidates = [];//めくる可能性のある駒
-      // console.log(i,directions)
-      console.log("u",u,"k",k,"x",x,"y",y)
-
-   // 1: はさめるかどうかのチェック
-      if(u>=0 && u<=7){
-        if(board[u][k] === color*-1  && board[y][x] === 0){ //隣が違う色、駒を置いてない場合
-          // console.log(x,y)
-          candidates.push([u, k]); //隣の駒はめくる可能性があるのでcandidatesにpush
-          
-          while(candidates.length > 0 && u+a*n>=0 && u+a*n<=7 && k+b*n>=0 && k+b*n<=7){
-            console.log("u+a*n",u+a*n,"k+b*n",k+b*n)
-            if (board[u+a*n][k+b*n] === 0 ) { //確認した先に駒が存在しなければ
-              break;
-            } 
-            else if (board[u+a*n][k+b*n] === color*-1){//一つ先も相手の駒の場合
-              candidates.push([u+a*n, k+b*n]);
-              n += 1;
-            } else {//１つ先が自駒の場合
-              confirmedPieces.push(...candidates);//めくる駒の確定完了
-              break;
+      const white = "<img src='pic/circle_white.png'>"
+      const black = "<img src='pic/circle_black.png'>"
+        
+      function draw(){
+        peaces="";
+        for(let t=0; t<board.length; t++){
+          peaces += "<tr>\n"
+          for(let r=0; r<board[t].length; r++){
+            peaces += "<td>";
+            if(board[t][r] === 1){
+              peaces += white;
+            }else if(board[t][r] === -1 ){
+              peaces += black;
             }
+            // peaces += board[t][r];
+            peaces += "</td>\n";
+          }
+          peaces += "</tr>\n"
+        }
+        $("#table").append(peaces);
+      }
+
+      let directions =[
+        [-1,-1],
+        [0,-1],
+        [1,-1],
+        [1,0],
+        [1,1],
+        [0,1],
+        [-1,1],
+        [-1,0],
+      ];
+
+      let color = 1;
+
+      function turnPiece(x, y){
+        let confirmedPieces = [];
+        
+        // 隣接するコマを確認するループ
+          for(let i=0; i<directions.length; i++){
+            let a= directions[i][0];
+            let b= directions[i][1];
+
+            let u =y+a;//隣接するx座標
+            let k =x+b;//隣接するy座標
+        
+            let n = 1; //何回while文を回すかの数
+            let candidates = [];//めくる可能性のある駒
+            // console.log(i,directions)
+            console.log("u",u,"k",k,"x",x,"y",y)
+
+        // 1: はさめるかどうかのチェック
+            if(u>=0 && u<=7){
+              if(board[u][k] === color*-1  && board[y][x] === 0){ //隣が違う色、駒を置いてない場合
+                // console.log(x,y)
+                candidates.push([u, k]); //隣の駒はめくる可能性があるのでcandidatesにpush
+                
+                while(candidates.length > 0 && u+a*n>=0 && u+a*n<=7 && k+b*n>=0 && k+b*n<=7){
+                  console.log("u+a*n",u+a*n,"k+b*n",k+b*n)
+                  if (board[u+a*n][k+b*n] === 0 ) { //確認した先に駒が存在しなければ
+                    break;
+                  } 
+                  else if (board[u+a*n][k+b*n] === color*-1){//一つ先も相手の駒の場合
+                    candidates.push([u+a*n, k+b*n]);
+                    n += 1;
+                  } else {//１つ先が自駒の場合
+                    confirmedPieces.push(...candidates);//めくる駒の確定完了
+                    break;
+                  }
+                }
+              }
+            }
+          }
+        
+        // 2: めくる駒の配列の中身
+        if (confirmedPieces.length > 0){
+          board[y][x] = color;// 駒を置く処理
+          for (let j = 0; j<confirmedPieces.length; j++){
+          board[confirmedPieces[j][0]][confirmedPieces[j][1]] = color;
+          }
+          color *= -1; // ユーザー切り替え
+        }
+      }
+
+      function count(){
+        let counts = {};
+        for(let i=0; i< board.length;i++){
+          for(let c=0; c<board[i].length; c++){
+          let key = board[i][c];
+          counts[key] = (counts[key])? counts[key] + 1 : 1 ;
+          }
+        }
+        $("#counter").html('<div>'+ white + counts[1] +'</div>'+'<div>'+ black +counts[-1]+'</div>');
+
+        if(counts[1] + counts[-1]===64 || counts[1] === 0 || counts[-1]===0){
+          if(counts[1] > counts[-1]){
+            alert("白の勝ち");
+          }else if(counts[1] < counts[-1]){
+            alert("黒の勝ち");
+          }else{
+            alert("引き分け");
           }
         }
       }
-    }
-  
-  // 2: めくる駒の配列の中身
-  if (confirmedPieces.length > 0){
-    board[y][x] = color;// 駒を置く処理
-    for (let j = 0; j<confirmedPieces.length; j++){
-    board[confirmedPieces[j][0]][confirmedPieces[j][1]] = color;
-    }
-    color *= -1; // ユーザー切り替え
-  }
-}
 
-function count(){
-  let counts = {};
-  for(let i=0; i< board.length;i++){
-    for(let c=0; c<board[i].length; c++){
-    let key = board[i][c];
-    counts[key] = (counts[key])? counts[key] + 1 : 1 ;
-    }
-  }
-  $("#counter").html('<div>'+ white + counts[1] +'</div>'+'<div>'+ black +counts[-1]+'</div>');
+      $(window).on("load",function(){
+        draw();
+        count();
+        // console.log(board);
+      });
 
-  if(counts[1] + counts[-1]===64 || counts[1] === 0 || counts[-1]===0){
-    if(counts[1] > counts[-1]){
-      alert("白の勝ち");
-    }else if(counts[1] < counts[-1]){
-      alert("黒の勝ち");
-    }else{
-      alert("引き分け");
-    }
-  }
-}
-
-$(window).on("load",function(){
-  draw();
-  count();
-  // console.log(board);
-});
-
-$(document).on('click','td', function() {
-// $("#app").on('click','td', function() {
-  let row = $(this).closest('tr').index(); //縦
-  let col = this.cellIndex;//横
-  // let text = $(this).text();
-  // console.log(text);
-  // console.log(this);
-  turnPiece(col,row);
-  $("#table").empty();
-  draw();
-  count();
-});
-
-</script>
-</body>
+      $(document).on('click','td', function() {
+      // $("#app").on('click','td', function() {
+        let row = $(this).closest('tr').index(); //縦
+        let col = this.cellIndex;//横
+        // let text = $(this).text();
+        // console.log(text);
+        // console.log(this);
+        turnPiece(col,row);
+        $("#table").empty();
+        draw();
+        count();
+      });
+    </script>
+  </body>
 </html>
